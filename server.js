@@ -3,7 +3,7 @@ const app = express();
 const server = require('http').createServer(app);
 const path = require("path");
 const SkyRTC = require('./public/dist/js/SkyRTC.js').listen(server);
-const port = process.env.PORT || 9999;
+const port = process.env.PORT || 9998;
 const hostname = "0.0.0.0";
 
 app.use(express.static(path.join(__dirname, 'public')), null);
