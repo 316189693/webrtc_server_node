@@ -150,7 +150,7 @@ const SkyRTC = function () {
         this.on("_ice_candidate", function (data) {
             var candidate = new nativeRTCIceCandidate(data);
             var pc = that.peerConnections[data.socketId];
-            if (!pc || !pc.remoteDescription.type) {
+            if (!pc || !pc.remoteDescription || !pc.remoteDescription.type) {
                 //push candidate onto queue...
                 console.log("remote not set!")
             }
