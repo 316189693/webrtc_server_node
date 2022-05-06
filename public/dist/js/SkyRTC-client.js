@@ -239,7 +239,11 @@ const SkyRTC = function () {
 
     function createStreamError(error) {
         if (gThat) {
-            gThat.emit("stream_create_error", error);
+            if (!gThat.isNotMedia) {
+                gThat.emit("stream_create_error", error);
+            } else {
+                gThat.emit("ready");
+            }
         }
     }
 
@@ -248,7 +252,7 @@ const SkyRTC = function () {
         gThat = this;
         options.video = !!options.video;
         options.audio = !!options.audio;
-
+        gThat.isNotMedia = !options.video && !options.audio;
         if (getUserMedia) {
             this.numStreams++;
             // 调用用户媒体设备, 访问摄像头
@@ -264,7 +268,9 @@ const SkyRTC = function () {
             stream,
             connection;
         for (connection in this.peerConnections) {
-            this.peerConnections[connection].addStream(this.localMediaStream);
+            if (this.localMediaStream) {
+                this.peerConnections[connection].addStream(this.localMediaStream);
+            }
         }
     };
 

@@ -86,10 +86,17 @@ rtc.on('receive_file_ask', function (sendId, socketId, fileName, fileSize) {
 //成功创建WebSocket连接
 rtc.on("connected", function (socket) {
     //创建本地视频流
-    rtc.createStream({
-        "video": true,
-        "audio": true
-    });
+    if(confirm("allow used your camera and microphone?")){
+        rtc.createStream({
+            "video": true,
+            "audio": true
+        });
+    } else {
+        rtc.createStream({
+            "video": false,
+            "audio": false
+        });
+    }
 });
 //创建本地视频流成功
 rtc.on("stream_created", function (stream) {
@@ -126,7 +133,7 @@ rtc.on('data_channel_message', function (channel, socketId, message) {
     msgs.appendChild(p);
 });
 //连接WebSocket服务器
- rtc.connect("wss:" + window.location.href.substring(window.location.protocol.length).split('#')[0]+"/wss/", window.location.hash.slice(1));
-// rtc.connect("ws:" + window.location.href.substring(window.location.protocol.length).split('#')[0], window.location.hash.slice(1));
+ // rtc.connect("wss:" + window.location.href.substring(window.location.protocol.length).split('#')[0]+"/wss/", window.location.hash.slice(1));
+ rtc.connect("ws:" + window.location.href.substring(window.location.protocol.length).split('#')[0], window.location.hash.slice(1));
 
 
